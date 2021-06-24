@@ -1,4 +1,4 @@
-# single-cell-metabolomics
+# Single-cell-metabolomics
 Visualization provides an ability to comprehend huge amounts of data.
 
 Visualization allows the perception of emergent properties that were not anticipated.
