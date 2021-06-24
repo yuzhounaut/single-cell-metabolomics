@@ -84,7 +84,7 @@ t = Timer(lambda: tsne_model(X_std))
 print(t.timeit(number=1))
 
 #Visualize data using t-SNE after PCA.
-print("t-Distributed Stochastic Neighbor Embedding (tSNE) on PCA")
+print("t-Distributed Stochastic Neighbor Embedding (t-SNE) on PCA")
 X_reduced = PCA(n_components =2 ).fit_transform(X_std)
 model = TSNE(learning_rate = 10, n_components = 2, random_state = 123, perplexity = 30)
 tsne_pca = model.fit_transform(X_reduced)
