@@ -10,7 +10,7 @@ Visualization facilitates hypothesis formation.
 
 
 
-Principal component analysis (PCA)
+**Principal component analysis (PCA)**
 
 Widely used method for unsupervised, linear dimensionality reduction to maximize variance of data in as few dimensions as possible.
 
@@ -23,7 +23,7 @@ Mostly preserves distances between dissimilar points, but directions of greatest
 
 
 
-t-SNE: t-Distributed Stochastic Neighbor Embedding
+**t-SNE: t-Distributed Stochastic Neighbor Embedding**
 
 • Laurens van der Maaten and Geoffrey Hinton, 2008
 
@@ -51,7 +51,7 @@ t-SNE is driven by 2 sets of forces: attractive forces bring similar datapoints 
 
 
 
-UMAP
+**UMAP**
 
 • How does it work?
 
