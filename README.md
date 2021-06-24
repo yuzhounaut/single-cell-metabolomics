@@ -8,6 +8,8 @@ A visualization commonly reveals things not only about the data per se, but abou
 Visualization facilitates hypothesis formation.
 
 
+
+
 Principal component analysis (PCA)
 
 Widely used method for unsupervised, linear dimensionality reduction to maximize variance of data in as few dimensions as possible.
@@ -16,6 +18,9 @@ Caveats:
 PCA linear projections often poorly represent relationships in multidimensional biological datasets.
 
 Mostly preserves distances between dissimilar points, but directions of greatest variance may not be most informative.
+
+
+
 
 
 t-SNE: t-Distributed Stochastic Neighbor Embedding
@@ -41,6 +46,9 @@ t-SNE is driven by 2 sets of forces: attractive forces bring similar datapoints 
 • Minimization of Kullback-Leibler Divergence (KLD);
 
 • KLD shows how much information is lost when the high dimensional data are flattened
+
+
+
 
 
 UMAP
