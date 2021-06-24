@@ -70,6 +70,6 @@ Compared with t-SNE
   * Better representation of multi-branched continuous trajectories of hematopoietic development
 
   * Faster than Barnes-Hut, comparable to FIt-SNE
-  * ![Figure 2021-06-24 183212 UMAP](https://user-images.githubusercontent.com/86154919/123248551-a213ba80-d51a-11eb-9ea8-67332373fc6c.png)
+ ![Figure 2021-06-24 183212 UMAP](https://user-images.githubusercontent.com/86154919/123248551-a213ba80-d51a-11eb-9ea8-67332373fc6c.png)
 
-**These data visualization results are obtained using the same data but different methods.**
+_**These data visualization results are obtained using the same data but different methods.**_
