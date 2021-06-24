@@ -17,6 +17,7 @@ PCA linear projections often poorly represent relationships in multidimensional 
 Mostly preserves distances between dissimilar points, but directions of greatest variance may not be most informative.
 
 t-SNE: t-Distributed Stochastic Neighbor Embedding
+
 • Laurens van der Maaten and Geoffrey Hinton, 2008
 
 • Widely used dimensionality reduction (biological and non-biological applications)
