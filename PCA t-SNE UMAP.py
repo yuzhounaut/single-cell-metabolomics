@@ -63,7 +63,7 @@ plt.title('Cumulative Explained Variance')
 plt.show()
 
 #Visualize data using t-SNE.
-print("t-Distributed Stochastic Neighbor Embedding (tSNE)")
+print("t-Distributed Stochastic Neighbor Embedding (t-SNE)")
 model = TSNE(learning_rate = 10, n_components = 2, random_state=123, perplexity = 30)
 tsne = model.fit_transform(X_std)
 tsne_df = pd.DataFrame(data=tsne, columns=['t-SNE1','t-SNE2']).join(labels)
