@@ -59,7 +59,7 @@ plt.figure(dpi=300)
 plt.plot(np.cumsum(pca_std.explained_variance_ratio_))
 plt.xlabel('Number of Components')
 plt.ylabel('Variance (%)') #for each component
-plt.title('Cancer Dataset - Cumulative Explained Variance')
+plt.title('Cumulative Explained Variance')
 plt.show()
 
 #Visualize data using t-SNE.
