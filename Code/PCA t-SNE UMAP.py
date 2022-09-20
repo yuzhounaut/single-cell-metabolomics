@@ -147,4 +147,3 @@ from timeit import Timer
 t = Timer(lambda: umap_model(X_std))
 print(t.timeit(number=1))
 
-
