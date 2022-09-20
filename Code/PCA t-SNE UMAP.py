@@ -6,9 +6,15 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from umap import UMAP
-
+import umap
+import umap.plot
 import sklearn.cluster as cluster
 from sklearn.metrics import adjusted_rand_score, adjusted_mutual_info_score
+
+from matplotlib import rcParams
+# figure size in inches
+rcParams['figure.figsize'] = 6,6
+rcParams['figure.dpi'] = 300
 
 #Creating dataframe for data.
 data = pd.read_csv('D:/t-SNE UMAP/Data/UMAP.csv', delimiter=',',index_col=0)
@@ -90,7 +96,7 @@ X_reduced = PCA(n_components = 100).fit_transform(X_std)
 model = TSNE(learning_rate = 10, n_components = 2, random_state = 42, perplexity = 30)
 tsne_pca = model.fit_transform(X_reduced)
 tsne_pca_df = pd.DataFrame(data=tsne_pca, columns=['t-SNE1','t-SNE2']).join(labels)
-plt.figure(dpi=300)
+plt.figure(dpi=300, figsize = (6,6))
 palette = sns.color_palette("Set2", n_colors=3)
 #Attention: the number of colors is the class number
 sns.set_style("white")
@@ -110,22 +116,35 @@ print(t.timeit(number=1))
 #Visualize data using UMAP.
 print("Uniform Manifold Approximation and Projection (UMAP)")
 model = UMAP(n_neighbors = 50, min_dist = 0.4, n_components = 2)
-umap = model.fit_transform(X_std)
-umap_df = pd.DataFrame(data=umap, columns=['UMAP1','UMAP2']).join(labels)
+umapper = model.fit_transform(X_std)
+umap_df = pd.DataFrame(data=umapper, columns=['UMAP1','UMAP2']).join(labels)
 plt.figure(dpi=300, figsize = (6,6))
 palette = sns.color_palette("Set2", n_colors=3)
 #Attention: the number of colors is the class number
 sns.set_style("white")
 sns.scatterplot(x='UMAP1',y='UMAP2',hue='Class',data=umap_df, palette=palette, linewidth=0.2, s=30, alpha=0.8).set_title('UMAP')
 
+umap_df
+mapper = UMAP(n_neighbors = 50, min_dist = 0.4, n_components = 2).fit(X)
+plt.figure(dpi=300,figsize = (6,6))
+#dpi value times figure size values in inches equals to pixel values 6*300=1800
+umap.plot.points(mapper, labels=umap_df.Class, color_key_cmap='Set2', width=1800, height=1800)
+
+umap.plot.connectivity(mapper, show_points=True, width=1800, height=1800)
+umap.plot.connectivity(mapper, edge_bundling='hammer', width=1800, height=1800)
+
+umap.plot.diagnostic(mapper, diagnostic_type='pca', point_size=30, width=1800, height=1800)
+umap.plot.diagnostic(mapper, diagnostic_type='local_dim', point_size=30, width=1800, height=1800)
+umap.plot.diagnostic(mapper, diagnostic_type='neighborhood', point_size=30, width=1800, height=1800)
+
 #Measure execution time for UMAP
-def umap(X):
+def umap_model(X):
     model = UMAP(n_neighbors = 50, min_dist = 0.4, n_components = 2)
-    umap = model.fit_transform(X)
-    return umap
+    umapvar = model.fit_transform(X)
+    return umapvar
 from timeit import Timer
   
-t = Timer(lambda: umap_model_pca(X_std))
+t = Timer(lambda: umap_model(X_std))
 print(t.timeit(number=1))
 
 
