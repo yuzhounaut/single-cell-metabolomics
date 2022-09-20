@@ -74,7 +74,7 @@ sns.set_style("white")
 sns.scatterplot(x='t-SNE1',y='t-SNE2',hue='Class',data=tsne_df, palette=palette, linewidth=0.2, s=30, alpha=0.8).set_title('t-SNE')
 
 #Measure execution time for t-SNE
-def tsne_model(X_std):
+def tsne_model(X):
     model = TSNE(learning_rate = 10, n_components = 2, random_state = 42, perplexity = 30)
     tsne = model.fit_transform(X)
     return tsne
@@ -97,14 +97,14 @@ sns.set_style("white")
 sns.scatterplot(x='t-SNE1',y='t-SNE2',hue='Class',data=tsne_pca_df, palette=palette, linewidth=0.2, s=30, alpha=0.8).set_title('t-SNE after PCA')
 
 #Measure execution time for t-SNE after PCA
-def tsne_model_pca(X_reduced):
+def tsne_model_pca(X):
     X_reduced = PCA(n_components = 100).fit_transform(X_std)
     model = TSNE(learning_rate = 10, n_components = 2, random_state = 42, perplexity = 30)
     tsne_pca = model.fit_transform(X_reduced)
     return tsne_pca
 from timeit import Timer
   
-t = Timer(lambda: tsne_model_pca(X_reduced))
+t = Timer(lambda: tsne_model_pca(X_std))
 print(t.timeit(number=1))
 
 #Visualize data using UMAP.
@@ -119,14 +119,13 @@ sns.set_style("white")
 sns.scatterplot(x='UMAP1',y='UMAP2',hue='Class',data=umap_df, palette=palette, linewidth=0.2, s=30, alpha=0.8).set_title('UMAP')
 
 #Measure execution time for UMAP
-def umap(X_std):
+def umap(X):
     model = UMAP(n_neighbors = 50, min_dist = 0.4, n_components = 2)
-    umap = model.fit_transform(X_std)
+    umap = model.fit_transform(X)
     return umap
 from timeit import Timer
   
 t = Timer(lambda: umap_model_pca(X_std))
 print(t.timeit(number=1))
-
 
 
