@@ -75,6 +75,10 @@ Compared with t-SNE
 _**These data visualization results are obtained using the same data but different methods.**_
 
 Multiple clustering methods and visualizations
+
+PCA
 ![Figure 2022-09-22 093738](https://user-images.githubusercontent.com/86154919/191640069-055a19b1-92f2-48a2-a815-3ac402d72077.png)
+t-SNE
 ![Figure 2022-09-22 093741](https://user-images.githubusercontent.com/86154919/191640083-e38f6550-4825-494a-b1c0-96a2868a2df0.png)
+UMAP
 ![Figure 2022-09-22 093745](https://user-images.githubusercontent.com/86154919/191640115-6d9b79e3-495b-4cb9-9a6e-3fb816bcfb3c.png)
