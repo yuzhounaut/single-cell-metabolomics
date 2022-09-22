@@ -1,3 +1,7 @@
+##############################################
+#For completely unknown datasets, HDBSCAN can be used to get the "Class" of cells.
+##############################################
+#---------------------------------------------
 # Step 1: Import Libraries
 #---------------------------------------------
 # Data processing 
@@ -135,6 +139,9 @@ print(df.head())
 #---------------------------------------------
 # Step 9: Visual Comparison of Models
 #---------------------------------------------
+##############################################
+##The label mapping process depends on the real sitution of the 'Class' of cells.
+##############################################
 # Check label mapping
 df.groupby(['Class', 'y_kmeans']).size().reset_index(name='counts')
 print(df.groupby(['Class', 'y_kmeans']).size().reset_index(name='counts'))
