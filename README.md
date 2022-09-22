@@ -73,6 +73,7 @@ Compared with t-SNE
  ![Figure 2021-06-24 183212 UMAP](https://user-images.githubusercontent.com/86154919/123248551-a213ba80-d51a-11eb-9ea8-67332373fc6c.png)
 
 _**These data visualization results are obtained using the same data but different methods.**_
+
 Multiple clustering methods and visualizations
 ![Figure 2022-09-22 093738](https://user-images.githubusercontent.com/86154919/191640069-055a19b1-92f2-48a2-a815-3ac402d72077.png)
 ![Figure 2022-09-22 093741](https://user-images.githubusercontent.com/86154919/191640083-e38f6550-4825-494a-b1c0-96a2868a2df0.png)
