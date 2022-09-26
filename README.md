@@ -82,3 +82,6 @@ t-SNE
 ![Figure 2022-09-22 093741](https://user-images.githubusercontent.com/86154919/191640083-e38f6550-4825-494a-b1c0-96a2868a2df0.png)
 UMAP
 ![Figure 2022-09-22 093745](https://user-images.githubusercontent.com/86154919/191640115-6d9b79e3-495b-4cb9-9a6e-3fb816bcfb3c.png)
+
+SHAP![Figure 2022-09-26 173254](https://user-images.githubusercontent.com/86154919/192258386-f52b7eec-0652-49e8-95a5-5a8cea399def.png)
+
