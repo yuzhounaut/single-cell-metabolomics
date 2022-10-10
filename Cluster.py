@@ -1,7 +1,6 @@
 ##############################################
 #For completely unknown datasets, HDBSCAN can be used to get the "Class" of cells.
 ##############################################
-#---------------------------------------------
 # Step 1: Import Libraries
 #---------------------------------------------
 # Data processing 
@@ -36,14 +35,16 @@ rcParams['figure.dpi'] = 300
 # Step 2: Read Data
 #---------------------------------------------
 # Load data
-#Creating dataframe for data.
-df = pd.read_csv('D:/Download/iris-1.csv')
+#Creating dataframe for data. 
+#The data need labels in the last column.
+df = pd.read_csv('D:/1808/Data/fds-20220516/Data/A549 20220516/A549-20220516-20220831 norm plot lable.csv', 
+                 delimiter=',', index_col=0)
 #Creating dataframe for Class.
+#The Class csv file don not need the Cell ID column.
 #'D:/1808/Data/fds-20220516/Data/000A549/single cell_group.csv
-Class = pd.read_csv('D:/Download/Species.csv')
-Class['Class'].unique()
-df['Class'] = Class
+Class = df[['Class']].copy()
 df['Class'].value_counts()
+print(df['Class'].value_counts())
 # Remove Class for the clustering model
 X = df[df.columns.difference(['Class'])]
 #Standardize the features before performing dimensionality reduction, (mean=0,standard deviation =1)
@@ -59,7 +60,7 @@ X_std = scaler.fit_transform(X)
 # Step 4: Kmeans Clustering (Model 1)
 #---------------------------------------------
 # Kmeans model
-kmeans = KMeans(n_clusters = 3, init = 'k-means++', random_state = 42)
+kmeans = KMeans(n_clusters = 2, init = 'k-means++', random_state = 42)
 # Fit and predict on the data
 y_kmeans = kmeans.fit_predict(X_std)
 # Save the predictions as a column
@@ -71,7 +72,7 @@ print(df['y_kmeans'].value_counts())
 # Step 5: Hierarchical Clustering (Model 2)
 #---------------------------------------------
 # Hierachical clustering model
-hc = AgglomerativeClustering(n_clusters = 3)
+hc = AgglomerativeClustering(n_clusters = 1)
 # Fit and predict on the data
 y_hc = hc.fit_predict(X_std)
 # Save the predictions as a column
@@ -83,7 +84,7 @@ print(df['y_hc'].value_counts())
 # Step 6: Gaussian Mixture Model (GMM) (Model 3)
 #---------------------------------------------
 # Fit the GMM model
-gmm = GaussianMixture(n_components=3, n_init=5, random_state=42)
+gmm = GaussianMixture(n_components=1, n_init=5, random_state=42)
 # Fit and predict on the data
 y_gmm = gmm.fit_predict(X_std)
 # Save the prediction as a column
@@ -140,85 +141,82 @@ print(df.head())
 # Step 9: Visual Comparison of Models
 #---------------------------------------------
 ##############################################
-##The label mapping process depends on the real sitution of the 'Class' of cells.
+#The label mapping process depends on the real sitution of the 'Class' of cells.
 ##############################################
 # Check label mapping
 df.groupby(['Class', 'y_kmeans']).size().reset_index(name='counts')
 print(df.groupby(['Class', 'y_kmeans']).size().reset_index(name='counts'))
 # Rename Class
-df['y_kmeans'] = df['y_kmeans'].map({1: 0, 2: 1, 0: 2})
+df['y_kmeans'] = df['y_kmeans'].map({0: 1, 1: 0})
 
 # Check label mapping
 df.groupby(['Class', 'y_hc']).size().reset_index(name='counts')
 print(df.groupby(['Class', 'y_hc']).size().reset_index(name='counts'))
 # Rename Class
-df['y_hc'] = df['y_hc'].map({1: 0, 2: 1, 0: 2})
+df['y_hc'] = df['y_hc'].map({0: 0, 1: 1})
 
 # Check label mapping
 df.groupby(['Class', 'y_gmm']).size().reset_index(name='counts')
 print(df.groupby(['Class', 'y_gmm']).size().reset_index(name='counts'))
 # Rename Class
-df['y_gmm'] = df['y_gmm'].map({1: 0, 2: 1, 0: 2})
+df['y_gmm'] = df['y_gmm'].map({0: 0, 1: 0})
 
 # Check label mapping
 df.groupby(['Class', 'y_dbscan']).size().reset_index(name='counts')
 print(df.groupby(['Class', 'y_dbscan']).size().reset_index(name='counts'))
 # Rename Class
-df['y_dbscan'] = df['y_dbscan'].map({0: 0, -1: 2, 1: 1})
+df['y_dbscan'] = df['y_dbscan'].map({1: 1, -1: 0})
 
 # Check label mapping
 df.groupby(['Class', 'y_hdbscan']).size().reset_index(name='counts')
 print(df.groupby(['Class', 'y_hdbscan']).size().reset_index(name='counts'))
 # Rename Class
-df['y_hdbscan'] = df['y_hdbscan'].map({0: 0, -1: 2, 1: 1})
+df['y_hdbscan'] = df['y_hdbscan'].map({1: 0, -1: 0, 0: 1})
 
 # Visualization using PCA
-palette = sns.color_palette("Set2", n_colors=3)
+palette = sns.color_palette("Set2", n_colors=2)
 #Attention: the number of colors is the class number
 sns.set_style("white")
 fig, axs = plt.subplots(nrows=3, ncols=2, sharex=False, sharey=False, figsize=(12,18))
-sns.scatterplot(x='PC1', y='PC2', data=df, hue='Class', palette=palette, linewidth=0.2, s=30, 
+sns.scatterplot(x='PC1', y='PC2', data=df, hue='Class', palette="Set2", linewidth=0.2, s=30, 
                 alpha=0.8, ax=axs[0,0]).set(title='Ground Truth')
 sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_kmeans', palette=palette, linewidth=0.2, s=30, 
                 alpha=0.8, ax=axs[0,1]).set(title='KMeans')
-sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_hc', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_hc', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[1,0]).set(title='Hierachical')
-sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_gmm', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_gmm', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[1,1]).set(title='GMM')
-sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_dbscan', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_dbscan', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[2,0]).set(title='DBSCAN')
-sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_hdbscan', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='PC1', y='PC2', data=df, hue='y_hdbscan', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[2,1]).set(title='HDBSCAN')
 
 # Visualization using t-SNE
 fig, axs = plt.subplots(nrows=3, ncols=2, sharey=True, figsize=(12,18))
-sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='Class', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='Class', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[0,0]).set(title='Ground Truth')
 sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_kmeans', palette=palette, linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[0,1]).set(title='KMeans')
-sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_hc', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_hc', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[1,0]).set(title='Hierachical')
-sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_gmm', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_gmm', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[1,1]).set(title='GMM')
-sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_dbscan', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_dbscan', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[2,0]).set(title='DBSCAN')
-sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_hdbscan', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='t-SNE1', y='t-SNE2', data=df, hue='y_hdbscan', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[2,1]).set(title='HDBSCAN')
 
 # Visualization using UMAP
 fig, axs = plt.subplots(nrows=3, ncols=2, sharey=True, figsize=(12,18))
-sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='Class', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='Class', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[0,0]).set(title='Ground Truth')
 sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_kmeans', palette=palette, linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[0,1]).set(title='KMeans')
-sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_hc', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_hc', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[1,0]).set(title='Hierachical')
-sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_gmm', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_gmm', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[1,1]).set(title='GMM')
-sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_dbscan', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_dbscan', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[2,0]).set(title='DBSCAN')
-sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_hdbscan', palette=palette, linewidth=0.2, s=30, alpha=0.8,
+sns.scatterplot(x='UMAP1', y='UMAP2', data=df, hue='y_hdbscan', palette="Set2", linewidth=0.2, s=30, alpha=0.8,
                 ax=axs[2,1]).set(title='HDBSCAN')
-
-
-
